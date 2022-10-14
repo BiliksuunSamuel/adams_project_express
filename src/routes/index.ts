@@ -9,3 +9,7 @@ export enum PostRoutes {
   AddCheck = "/api/check/add",
   GetCheckTag = "/api/check/tag",
 }
+
+export enum PutRoutes {
+  CheckOut = "/api/check/out",
+}

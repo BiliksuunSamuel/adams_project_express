@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
 import moment from "moment";
 import { ICheckInfo } from "../interface";
-import { AddCheck, GetChecks } from "../services/CheckServices";
+import {
+  AddCheck,
+  GetChecks,
+  UpdateCheckInfo,
+} from "../services/CheckServices";
 import { GenerateTagId } from "../utils";
 
 interface IData extends ICheckInfo {
@@ -43,6 +47,20 @@ export async function GenerateTagIdController(req: Request, res: Response) {
     }
   } catch (error) {
     console.log(error);
+    res.status(404).send(error);
+  }
+}
+
+export async function CheckOutController(req: Request, res: Response) {
+  try {
+    const data: IData = req.body;
+    data.checkOutTime = moment().format();
+    await UpdateCheckInfo(data, data._id);
+    res.send({
+      data: await GetChecks(),
+      message: "Service Updated Successfully",
+    });
+  } catch (error) {
     res.status(404).send(error);
   }
 }
